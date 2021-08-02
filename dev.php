@@ -6,7 +6,7 @@ return [
     'SERVER_NAME' => "EasySwoole",
     'MAIN_SERVER' => [
         'LISTEN_ADDRESS' => '0.0.0.0',
-        'PORT' => 9501,
+        'PORT' => 8080,
         'SERVER_TYPE' => EASYSWOOLE_WEB_SERVER, //可选为 EASYSWOOLE_SERVER  EASYSWOOLE_WEB_SERVER EASYSWOOLE_WEB_SOCKET_SERVER
         'SOCK_TYPE' => SWOOLE_TCP,
         'RUN_MODEL' => SWOOLE_PROCESS,
@@ -15,7 +15,7 @@ return [
             'reload_async' => true,
             'max_wait_time' => 3
         ],
-        'TASK' => [
+        'TASK' => [ // easyswoole自定义任务，非swoole中任务
             'workerNum' => 4,
             'maxRunningNum' => 128,
             'timeout' => 15
@@ -29,13 +29,13 @@ return [
         'displayConsole'=>true,
         'ignoreCategory' => []
     ],
-    'TEMP_DIR' => null,
+    'TEMP_DIR' => '/temp',
     'MYSQL'         => [
-        'host'          => '127.0.0.1',
+        'host'          => 'mysql',
         'port'          => 3306,
-        'user'          => 'testEs',
-        'password'      => 'KdhHirAsRRY8WAaM',
-        'database'      => 'testEs',
+        'user'          => 'root',
+        'password'      => 'root',
+        'database'      => 'test',
         'timeout'       => 5,
         'charset'       => 'utf8mb4',
         'POOL_MAX_NUM'  => 20,

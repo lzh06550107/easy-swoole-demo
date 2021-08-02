@@ -57,20 +57,20 @@ class UserModel extends AbstractModel
     /*
      * 登录成功后请返回更新后的bean
      */
-    function login():?UserModel
+    public function login():?UserModel
     {
         $info = $this->get(['userAccount'=>$this->userAccount,'userPassword'=>$this->userPassword]);
         return $info;
     }
 
-    function getOneBySession($field='*'):?UserModel
+    public function getOneBySession($field='*'):?UserModel
     {
         $info = $this->field($field)->get(['userSession'=>$this->userSession]);
         return $info;
     }
 
-    function logout(){
+    public function logout()
+    {
         return $this->update(['userSession'=>'']);
     }
-
 }

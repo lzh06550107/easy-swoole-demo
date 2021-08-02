@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: yf
- * Date: 2018/10/26
- * Time: 5:39 PM
- */
 
 namespace App\HttpController\Api\Admin;
 
@@ -13,6 +7,7 @@ use App\Model\Admin\AdminModel;
 use EasySwoole\Http\Message\Status;
 use EasySwoole\Validate\Validate;
 
+// 后台管理基础控制器定义
 class AdminBase extends ApiBase
 {
     //public才会根据协程清除
@@ -27,13 +22,12 @@ class AdminBase extends ApiBase
      * @param null|string $action
      * @return bool|null
      * @throws \Throwable
-     * @author yangzhenyu
-     * Time: 13:49
+     * @author LZH
      */
-    function onRequest(?string $action): ?bool
+    public function onRequest(?string $action): ?bool
     {
         if (parent::onRequest($action)) {
-            //白名单判断
+            //白名单判断，即不需要登录就可访问
             if (in_array($action, $this->whiteList)) {
                 return true;
             }
@@ -50,16 +44,15 @@ class AdminBase extends ApiBase
     /**
      * getWho
      * @return bool
-     * @author yangzhenyu
-     * Time: 13:51
+     * @author LZH
      */
-    function getWho(): ?AdminModel
+    public function getWho(): ?AdminModel
     {
         if ($this->who instanceof AdminModel) {
             return $this->who;
         }
         $sessionKey = $this->request()->getRequestParam($this->sessionKey);
-        if (empty($sessionKey)) {
+        if (empty($sessionKey)) { // 参数中没有，则从cookie中获取sessionId
             $sessionKey = $this->request()->getCookieParams($this->sessionKey);
         }
         if (empty($sessionKey)) {

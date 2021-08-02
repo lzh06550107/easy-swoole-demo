@@ -1,21 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: yf
- * Date: 2018/10/26
- * Time: 5:39 PM
- */
 
 namespace App\HttpController\Api\Admin;
 
 use App\Model\Admin\AdminModel;
 use EasySwoole\Http\Message\Status;
+use EasySwoole\HttpAnnotation\AnnotationTag\Api;
+use EasySwoole\HttpAnnotation\AnnotationTag\ApiAuth;
+use EasySwoole\HttpAnnotation\AnnotationTag\ApiDescription;
+use EasySwoole\HttpAnnotation\AnnotationTag\ApiFail;
+use EasySwoole\HttpAnnotation\AnnotationTag\ApiGroup;
+use EasySwoole\HttpAnnotation\AnnotationTag\ApiGroupDescription;
+use EasySwoole\HttpAnnotation\AnnotationTag\ApiRequestExample;
+use EasySwoole\HttpAnnotation\AnnotationTag\ApiSuccess;
 use EasySwoole\HttpAnnotation\AnnotationTag\Param;
 
+/**
+ * 管理员登录控制器
+ * @package App\HttpController\Api\Admin
+ * @ApiGroup(groupName="后端接口")
+ * @ApiGroupDescription("该组为后端页面访问的接口")
+ */
 class Auth extends AdminBase
 {
     protected $whiteList=['login'];
-
 
     /**
      * login
@@ -24,10 +31,9 @@ class Auth extends AdminBase
      * @Param(name="password", alias="密码", required="", lengthMin="6", lengthMax="16")
      * @throws \EasySwoole\ORM\Exception\Exception
      * @throws \Throwable
-     * @author Tioncico
-     * Time: 10:18
+     * @author LZH
      */
-    function login()
+    public function login()
     {
         $param = $this->request()->getRequestParam();
         $model = new AdminModel();
@@ -45,23 +51,26 @@ class Auth extends AdminBase
             $rs = $user->toArray();
             unset($rs['adminPassword']);
             $rs['adminSession'] = $sessionHash;
+            // 一个小时有效期
             $this->response()->setCookie('adminSession', $sessionHash, time() + 3600, '/');
             $this->writeJson(Status::CODE_OK, $rs);
         } else {
             $this->writeJson(Status::CODE_BAD_REQUEST, '', '密码错误');
         }
-
     }
 
     /**
-     * logout
-     * 退出登录,参数注解写法
+     * @Api(name="logout",path="/api/admin/auth/logout")
+     * @ApiDescription("用户注销")
+     * @ApiRequestExample("curl http://127.0.0.1:9501/api/admin/auth/logout")
+     * @ApiAuth(name="登录",required="",description="必须是登录用户才行")
      * @Param(name="adminSession", from={COOKIE}, required="")
+     * @ApiSuccess({"code":200,"result":null,"msg":"登出成功"})
+     * @ApiFail({"code":401,"result":null,"msg":"尚未登入"})
      * @return bool
-     * @author Tioncico
-     * Time: 10:23
+     * @author LZH
      */
-    function logout()
+    public function logout()
     {
         $sessionKey = $this->request()->getRequestParam($this->sessionKey);
         if (empty($sessionKey)) {
@@ -79,7 +88,10 @@ class Auth extends AdminBase
         }
     }
 
-    function getInfo()
+    /**
+     * 获取管理员详细信息
+     */
+    public function getInfo()
     {
         $this->writeJson(200, $this->getWho()->toArray(), 'success');
     }

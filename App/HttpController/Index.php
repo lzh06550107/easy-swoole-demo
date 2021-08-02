@@ -1,35 +1,28 @@
 <?php
 
-
 namespace App\HttpController;
 
-
 use EasySwoole\Http\AbstractInterface\Controller;
+use EasySwoole\HttpAnnotation\AnnotationTag\Param;
+use EasySwoole\HttpAnnotation\Utility\AnnotationDoc;
 
+/**
+ * doc文档控制器
+ */
 class Index extends Controller
 {
 
+    /**
+     * api文档主页
+     * @author LZH
+     * @date 2021/8/2
+     */
     public function index()
     {
-        $file = EASYSWOOLE_ROOT.'/vendor/easyswoole/easyswoole/src/Resource/Http/welcome.html';
-        if(!is_file($file)){
-            $file = EASYSWOOLE_ROOT.'/src/Resource/Http/welcome.html';
-        }
-        $this->response()->write(file_get_contents($file));
+        $doc = new AnnotationDoc();
+        $string = $doc->scan2Html(EASYSWOOLE_ROOT.'/App/HttpController');
+        $this->response()->withAddedHeader('Content-type', "text/html;charset=utf-8");
+        $this->response()->write($string);
     }
 
-    function test()
-    {
-        $this->response()->write('this is test');
-    }
-
-    protected function actionNotFound(?string $action)
-    {
-        $this->response()->withStatus(404);
-        $file = EASYSWOOLE_ROOT.'/vendor/easyswoole/easyswoole/src/Resource/Http/404.html';
-        if(!is_file($file)){
-            $file = EASYSWOOLE_ROOT.'/src/Resource/Http/404.html';
-        }
-        $this->response()->write(file_get_contents($file));
-    }
 }

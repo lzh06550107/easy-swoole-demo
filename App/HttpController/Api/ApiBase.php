@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Tioncico
- * Date: 2019/3/29 0029
- * Time: 10:45
- */
 
 namespace App\HttpController\Api;
-
 
 use App\HttpController\BaseController;
 use EasySwoole\EasySwoole\Core;
@@ -15,9 +8,10 @@ use EasySwoole\EasySwoole\Trigger;
 use EasySwoole\Http\Message\Status;
 use EasySwoole\HttpAnnotation\Exception\Annotation\ParamValidateError;
 
+// api 基础控制器定义
 abstract class ApiBase extends BaseController
 {
-    function index()
+    public function index()
     {
         $this->actionNotFound('index');
     }
@@ -27,7 +21,7 @@ abstract class ApiBase extends BaseController
         $this->writeJson(Status::CODE_NOT_FOUND);
     }
 
-    function onRequest(?string $action): ?bool
+    public function onRequest(?string $action): ?bool
     {
         if (!parent::onRequest($action)) {
             return false;
@@ -35,9 +29,13 @@ abstract class ApiBase extends BaseController
         return true;
     }
 
+    /**
+     * 拦截异常
+     * @param \Throwable $throwable
+     */
     protected function onException(\Throwable $throwable): void
     {
-        if ($throwable instanceof ParamValidateError) {
+        if ($throwable instanceof ParamValidateError) { // 参数验证异常
             $msg = $throwable->getValidate()->getError()->getErrorRuleMsg();
             $this->writeJson(400, null, "{$msg}");
         } else {

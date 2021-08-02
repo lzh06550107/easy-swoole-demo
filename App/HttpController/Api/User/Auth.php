@@ -1,18 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: yf
- * Date: 2019-04-02
- * Time: 13:03
- */
 
 namespace App\HttpController\Api\User;
-
 
 use App\Model\User\UserModel;
 use EasySwoole\Http\Message\Status;
 use EasySwoole\HttpAnnotation\AnnotationTag\Param;
 
+// 普通用户登录控制器
 class Auth extends UserBase
 {
     protected $whiteList = ['login', 'register'];
@@ -23,10 +17,10 @@ class Auth extends UserBase
      * @Param(name="userPassword", alias="密码", required="", lengthMin="6",lengthMax="18")
      * @throws \EasySwoole\ORM\Exception\Exception
      * @throws \Throwable
-     * @author Tioncico
+     * @author LZH
      * Time: 15:06
      */
-    function login()
+    public function login()
     {
         $param = $this->request()->getRequestParam();
         $model = new UserModel();
@@ -50,8 +44,7 @@ class Auth extends UserBase
         }
     }
 
-
-    function logout()
+    public function logout()
     {
         $sessionKey = $this->request()->getRequestParam('userSession');
         if (empty($sessionKey)) {
@@ -70,7 +63,7 @@ class Auth extends UserBase
     }
 
 
-    function getInfo()
+    public function getInfo()
     {
         $this->writeJson(200, $this->getWho(), 'success');
     }

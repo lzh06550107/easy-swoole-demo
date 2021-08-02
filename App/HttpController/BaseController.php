@@ -1,20 +1,18 @@
 <?php
 
-
 namespace App\HttpController;
-
 
 use EasySwoole\EasySwoole\ServerManager;
 use EasySwoole\HttpAnnotation\AnnotationController;
 
+// 全局基础控制器定义
 class BaseController extends AnnotationController
 {
-
-    function index()
+    // 找不到控制器默认会调用这个方法
+    public function index()
     {
         $this->actionNotFound('index');
     }
-
 
     /**
      * 获取用户的真实IP
@@ -33,13 +31,22 @@ class BaseController extends AnnotationController
                 $clientAddress = $xri[0];
             } elseif (!empty($xff)) {  // 如果不存在xri 则继续判断xff
                 $list = explode(',', $xff[0]);
-                if (isset($list[0])) $clientAddress = $list[0];
+                if (isset($list[0])) {
+                    $clientAddress = $list[0];
+                }
             }
         }
         return $clientAddress;
     }
 
-    protected function input($name, $default = null) {
+    /**
+     * 获取请求参数
+     * @param string $name 参数名称
+     * @param null $default 参数默认值
+     * @return array|mixed|object|null
+     */
+    protected function input($name, $default = null)
+    {
         $value = $this->request()->getRequestParam($name);
         return $value ?? $default;
     }

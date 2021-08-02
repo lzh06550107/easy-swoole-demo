@@ -1,17 +1,21 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: yf
- * Date: 2018/10/26
- * Time: 5:39 PM
- */
 
 namespace App\HttpController\Api\Admin;
 
 use App\Model\User\UserModel;
 use EasySwoole\Http\Message\Status;
+use EasySwoole\HttpAnnotation\AnnotationTag\ApiGroup;
+use EasySwoole\HttpAnnotation\AnnotationTag\ApiGroupAuth;
+use EasySwoole\HttpAnnotation\AnnotationTag\ApiGroupDescription;
 use EasySwoole\HttpAnnotation\AnnotationTag\Param;
 
+/**
+ * 后台会员管理控制器，后台管理员登录之后，可通过此文件的接口，去进行会员的增删改查操作 (即 CURD)
+ * @package App\HttpController\Api\Admin
+ * @ApiGroup(groupName="后端接口")
+ * @ApiGroupDescription("该组为后端页面访问的接口")
+ * @ApiGroupAuth(name="userToken",from={POST},required="",description="用户登录后，服务端返回的token,用于API鉴权")
+ */
 class User extends AdminBase
 {
     /**
@@ -19,10 +23,9 @@ class User extends AdminBase
      * @Param(name="page", alias="页数", optional="", integer="")
      * @Param(name="limit", alias="每页总数", optional="", integer="")
      * @Param(name="keyword", alias="关键字", optional="", lengthMax="32")
-     * @author Tioncico
-     * Time: 14:01
+     * @author LZH
      */
-    function getAll()
+    public function getAll()
     {
         $page = (int)$this->input('page', 1);
         $limit = (int)$this->input('limit', 20);
@@ -37,10 +40,9 @@ class User extends AdminBase
      * @Param(name="userId", alias="用户id", required="", integer="")
      * @throws \EasySwoole\ORM\Exception\Exception
      * @throws \Throwable
-     * @author Tioncico
-     * Time: 11:48
+     * @author LZH
      */
-    function getOne()
+    public function getOne()
     {
         $param = $this->request()->getRequestParam();
         $model = new UserModel();
@@ -50,7 +52,6 @@ class User extends AdminBase
         } else {
             $this->writeJson(Status::CODE_BAD_REQUEST, [], 'fail');
         }
-
     }
 
     /**
@@ -60,10 +61,9 @@ class User extends AdminBase
      * @Param(name="userPassword", alias="用户密码", required="", lengthMin="6",lengthMax="18")
      * @Param(name="phone", alias="手机号码", optional="", lengthMax="18",numeric="")
      * @Param(name="state", alias="用户状态", optional="", inArray="{0,1}")
-     * @author Tioncico
-     * Time: 11:48
+     * @author LZH
      */
-    function add()
+    public function add()
     {
         $param = $this->request()->getRequestParam();
         $model = new UserModel($param);
@@ -85,10 +85,9 @@ class User extends AdminBase
      * @Param(name="phone", alias="手机号", optional="",  lengthMax="18")
      * @throws \EasySwoole\ORM\Exception\Exception
      * @throws \Throwable
-     * @author Tioncico
-     * Time: 11:54
+     * @author LZH
      */
-    function update()
+    public function update()
     {
         $model = new UserModel();
         /**
@@ -112,7 +111,6 @@ class User extends AdminBase
         } else {
             $this->writeJson(Status::CODE_BAD_REQUEST, [], $model->lastQueryResult()->getLastError());
         }
-
     }
 
     /**
@@ -120,10 +118,9 @@ class User extends AdminBase
      * @Param(name="userId", alias="用户id", required="", integer="")
      * @throws \EasySwoole\ORM\Exception\Exception
      * @throws \Throwable
-     * @author Tioncico
-     * Time: 14:02
+     * @author LZH
      */
-    function delete()
+    public function delete()
     {
         $param = $this->request()->getRequestParam();
         $model = new UserModel();
@@ -133,6 +130,5 @@ class User extends AdminBase
         } else {
             $this->writeJson(Status::CODE_BAD_REQUEST, [], '删除失败');
         }
-
     }
 }

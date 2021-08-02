@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: yf
- * Date: 2018/10/26
- * Time: 5:39 PM
- */
 
 namespace App\HttpController\Api\User;
 
@@ -12,6 +6,7 @@ use App\HttpController\Api\ApiBase;
 use App\Model\User\UserModel;
 use EasySwoole\Http\Message\Status;
 
+// 普通用户基础控制器定义
 class UserBase extends ApiBase
 {
     protected $who;
@@ -25,10 +20,9 @@ class UserBase extends ApiBase
      * @param null|string $action
      * @return bool|null
      * @throws \Throwable
-     * @author yangzhenyu
-     * Time: 13:49
+     * @author LZH
      */
-    function onRequest(?string $action): ?bool
+    public function onRequest(?string $action): ?bool
     {
         if (parent::onRequest($action)) {
             //白名单判断
@@ -49,11 +43,10 @@ class UserBase extends ApiBase
     }
 
     /**
-     * getWho
-     * @author yangzhenyu
-     * Time: 13:51
+     * 获取会员用户对象
+     * @author LZH
      */
-    function getWho(): ?UserModel
+    public function getWho(): ?UserModel
     {
         if ($this->who instanceof UserModel) {
             return $this->who;

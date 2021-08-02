@@ -19,7 +19,7 @@ class BannerModel extends AbstractModel
     protected $primaryKey = 'bannerId';
 
 
-    public function getAll(int $page = 1,int $state=1, string $keyword = null, int $pageSize = 10): array
+    public function getAll(int $page = 1, int $state=1, string $keyword = null, int $pageSize = 10): array
     {
         $where = [];
         if (!empty($keyword)) {
@@ -30,6 +30,4 @@ class BannerModel extends AbstractModel
         $total = $this->lastQueryResult()->getTotalCount();
         return ['total' => $total, 'list' => $list];
     }
-
-
 }
