@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `admin_list`;
 CREATE TABLE if not exists  `admin_list` (
   `adminId` int(11) NOT NULL AUTO_INCREMENT,
   `adminName` varchar(15) DEFAULT NULL,
@@ -10,9 +11,11 @@ CREATE TABLE if not exists  `admin_list` (
   UNIQUE KEY `adminAccount` (`adminAccount`),
   KEY `adminSession` (`adminSession`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-INSERT INTO `admin_list` VALUES ('1', '仙士可', 'xsk', 'e10adc3949ba59abbe56e057f20f883e', '', '1566279458', '192.168.159.1');
+INSERT INTO `admin_list` VALUES ('1', '仙士可1', 'admin1', 'e10adc3949ba59abbe56e057f20f883e', '', '1566279458', '192.168.159.1');
+INSERT INTO `admin_list` VALUES ('2', '仙士可2', 'admin2', 'e10adc3949ba59abbe56e057f20f883e', '', '1566279458', '192.168.159.1');
+INSERT INTO `admin_list` VALUES ('3', '仙士可3', 'admin3', 'e10adc3949ba59abbe56e057f20f883e', '', '1566279458', '192.168.159.1');
 
-
+DROP TABLE IF EXISTS `user_list`;
 CREATE TABLE if not exists  `user_list` (
   `userId` int(11) NOT NULL AUTO_INCREMENT,
   `userName` varchar(32) NOT NULL,
@@ -32,8 +35,11 @@ CREATE TABLE if not exists  `user_list` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `user_list` VALUES ('1', 'xsk', 'xsk', 'e10adc3949ba59abbe56e057f20f883e', '18459537313', null, '192.168.199.113', '1561081989', '0e81873434f94d3217a3a7d6d04d1561', '1', '10000', '0');
+INSERT INTO `user_list` VALUES ('2', 'test1', 'test1', 'e10adc3949ba59abbe56e057f20f883e', '18459537314', null, '192.168.199.113', '1561081989', '0e81873434f94d3217a3a7d6d04d1561', '1', '10000', '0');
+INSERT INTO `user_list` VALUES ('3', 'test2', 'test2', 'e10adc3949ba59abbe56e057f20f883e', '18459537315', null, '192.168.199.113', '1561081989', '0e81873434f94d3217a3a7d6d04d1561', '1', '10000', '0');
+INSERT INTO `user_list` VALUES ('4', 'test2', 'test3', 'e10adc3949ba59abbe56e057f20f883e', '18459537315', null, '192.168.199.113', '1561081989', '0e81873434f94d3217a3a7d6d04d1561', '1', '10000', '0');
 
-
+DROP TABLE IF EXISTS `banner_list`;
 CREATE TABLE if not exists `banner_list` (
   `bannerId` int(11) NOT NULL AUTO_INCREMENT,
   `bannerName` varchar(32) DEFAULT NULL,
@@ -44,4 +50,6 @@ CREATE TABLE if not exists `banner_list` (
   PRIMARY KEY (`bannerId`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
-INSERT INTO `banner_list` VALUES ('1', '测试banner', 'asdadsasdasd.jpg', '测试的banner数据', 'www.php20.cn',1);
+INSERT INTO `banner_list` VALUES ('1', '测试banner1', 'asdadsasdasd.jpg', '测试的banner数据', 'www.php20.cn',1);
+INSERT INTO `banner_list` VALUES ('2', '测试banner2', 'asdadsasdasd.jpg', '测试的banner数据', 'www.php20.cn',1);
+INSERT INTO `banner_list` VALUES ('3', '测试banner3', 'asdadsasdasd.jpg', '测试的banner数据', 'www.php20.cn',1);
